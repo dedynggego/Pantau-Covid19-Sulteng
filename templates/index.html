@@ -1,0 +1,301 @@
+{%include 'header.html'%}
+
+    <!-- JUMBOTRON -->
+    <div class="jumbotron jumbotron-fluid bg-info text-white mt-4">
+        <div class="container text-center">
+          <h1 class="display-4"><b>Data Covid-19 Sulawesi Tengah</b></h1>
+          <p class="lead">
+            <h2>MARI JO SAMA-SAMA TORANG LAWAN #COVID19</h2>
+          </p>
+          <h5>#PakaiMasker #CuciTangan #JagaJarak</h5>
+        </div>
+      </div>
+      <!-- END JUMBOTRON -->
+      <div class="container mb-2">
+        <p class="card-text"><small class="text-muted">LAST UPDATE: {{hari_ini}}</small></p>
+      </div>
+      
+
+    <!-- BODY INDONESIA -->
+    {% for data in dt %}
+    <div class="container">
+        <div class="row">
+            <div class="col" style="background-color: #dedcdc;">
+                <h3 class="text-center mt-2" style="color: rgb(0,0,0);">Data Kasus Covid-19 Indonesia</h3>
+                <div class="card-group rounded shadow" style="color: rgb(255,255,255);">
+                    <div class="card bg-danger"><center><img class="img-fluid card-img-top  d-block" src="static/img/sakit.svg" style="width: 100px;"></center>
+                        <div class="card-body rounded bg-danger">
+                            <center>
+                                <h5 class="text-center card-title">Positif</h5>
+                                <h4 class="text-center"><b>== {{data.total.positif}} ==</b></h4>
+                                <h5 class="text-center card-title">Orang</h5>
+                                <hr>
+                                <h5>Bertambah</h5>
+                                <h4><b>== {{data.penambahan.positif}} ==</b></h4>
+                                <h5>Orang</h5>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="card bg-success"><center><img class="card-img-top  d-block" src="static/img/sembuh.svg" style="width: 100px;"></center>
+                        <div class="card-body rounded bg-success ">
+                            <center>
+                                <h5 class="text-center card-title">Sembuh</h5>
+                                <h4 class="text-center"><b>== {{data.total.sembuh}} ==</b></h4>
+                                <h5 class="text-center card-title">Orang</h5>
+                                <hr>
+                                <h5>Bertambah</h5>
+                                <h4><b>== {{data.penambahan.sembuh}} ==</b></h4>
+                                <h5>Orang</h5>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="card bg-warning"><center><img class="card-img-top d-block" src="static/img/dirawat.svg" style="width: 100px;"></center>
+                        <div class="card-body rounded bg-warning">
+                            <center>
+                                <h5 class="text-center card-title">Dirawat</h5>
+                                <h4 class="text-center"><b>== {{data.total.dirawat}} ==</b></h4>
+                                <h5 class="text-center card-title">Orang</h5>
+                                <hr>
+                                {% if data.penambahan.dirawat < 0 %}
+                                    <h5>Berkurang</h5>
+                                    <h4><b>== {{data.penambahan.dirawat}} ==</b></h4>
+                                    <h5>Orang</h5>
+                                {% else %}
+                                    <h5>Bertambah</h5>
+                                    <h4><b>== {{data.penambahan.dirawat}} ==</b></h4>
+                                    <h5>Orang</h5>
+                                {% endif %}
+                            </center>
+                        </div>
+                    </div>
+                    <div class="card bg-dark"><center><img class="card-img-top d-block" src="static/img/meninggal.svg" style="width: 100px;"></center>
+                        <div class="card-body rounded bg-dark">
+                            <center>
+                                <h5 class="text-center card-title">Meninggal</h5>
+                                <h4 class="text-center"><b>== {{data.total.meninggal}} ==</b></h4>
+                                <h5 class="text-center card-title">Orang</h5>
+                                <hr>
+                                <h5>Bertambah</h5>
+                                <h4><b>== {{data.penambahan.meninggal}} ==</b></h4>
+                                <h5>Orang</h5>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    <!-- END BODY INDONESIA -->
+
+    <style type="text/css">
+        .col{
+            border-radius: 5px;
+        }
+    </style>
+    <!-- LINE CHART -->
+    <div class="container mt-4" style="border-radius: 5px;">
+        <div class="row">
+            <div class="col">
+                <div class="card overflow-hidden bg-white work-progress">
+                    
+                    <div class="card-body shadow">
+                        <center>
+                            <canvas id="chart" width="1080" height=600"></canvas>
+                            <h5><small class="text-muted">Update setiap hari</small> </h5>
+                            <p class="card-text"><small class="text-muted">Update terbaru {{hari_ini}}</small></p>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END LINE CHART -->
+
+    <!-- BODY SULTENG -->
+    <div class="container mt-4">
+     
+        <div class="card text-center bg-secondary mt-2 shadow">
+          <div class="card-header text-white">
+            <h3>Data Kasus Covid-19 Sulawesi Tengah</h3>
+          </div>
+          {% for data in dt_sulteng %}
+          <div class="card-group">
+            <div class="card bg-danger text-white">
+            <center>
+                <img class="card-img-top" src="{{ url_for('static', filename='img/sakit.svg')}}"  alt="Card image cap" style="width: 100px;">
+            </center>
+              <h4>Positif</h4>
+              <h3 class="card-title"><b>{{data.kasus}}</b></h3>
+              <h4 class="card-title">Orang</h4>
+              <hr>
+              <h4>Bertambah</h4>
+              <h3><b>{{data.penambahan.positif}}</b></h3>
+              <h4>Orang</h4>
+            </div>
+  
+            <div class="card bg-success text-white">
+                <center>
+                    <img src="{{ url_for('static', filename='img/sembuh.svg')}}" class="card-img-top" alt="Card image cap" style="width: 100px;" >
+                </center>  
+              <h4 class="card-title">Sembuh</h4>
+                <h3 class="card-title"><b>{{data.sembuh}}</b></h3>
+                <h4 class="card-title">Orang</h4>
+                <hr>
+                <h4>Bertambah</h4>
+                <h3><b>{{data.penambahan.sembuh}}</b></h3>
+                <h4>Orang</h4>
+            </div>
+  
+            <div class="card bg-dark text-white">
+                <center>
+                    <img src="{{ url_for('static', filename='img/meninggal.svg')}}" class="card-img-top" alt="Class image cap" style="width: 100px;">
+                </center> 
+                <h4 class="card-title">Meninggal</h4>
+                <h3 class="card-title"><b>{{data.meninggal}}</b></h3>
+                <h4 class="card-title">Orang</h4>
+                <hr>
+              <h4>Bertambah</h4>
+              <h3><b>{{data.penambahan.meninggal}}</b></h3>
+              <h4>Orang</h4>
+            </div>
+          </div>
+          <p class="card-text"><small class="text-muted">Update terbaru {{hari_ini}}</small></p>
+        </div>
+      </div>
+      {% endfor %}
+      <!-- END BODY SULTENG -->
+
+      <!-- BAR CHART -->
+      <div class="container mt-4" style="border-radius: 5px;">
+        <div class="row">
+            <div class="col">
+                <div class="card overflow-hidden bg-white work-progress">
+                    <div class="card-header">
+                        <h4 class="card-title">Statistik Kasus Covid-19 di Sulawesi Tengah</h4>
+                    </div>
+                    <div class="card-body shadow">
+                        <center>
+                            <canvas id="bar_chart" width="1080" height=300"></canvas>
+                            <p class="card-text"><small class="text-muted">Update terbaru {{hari_ini}}</small></p>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END BAR CHART -->
+
+    <!-- DAFTAR RUMAH SAKIT -->
+    
+    <div class="container mt-5">
+        <h3>Daftar Rumah Sakit Rujukan Covid-19 Sulawesi Tengah</h3>
+        <div class="row">
+            <div class="col">
+                <div class="card-group overflow-hidden work-progress">
+                    <div class="card-body">
+                        <div class="card-order">
+                            <h6 class="mb-2">RS UMUM DAERAH UNDATA PALU</h6>
+                            <p class="mb-0">JALAN TRANS SULAWESI TONDO, TALISE, MANTIKULORE, KOTA PALU, 94119.</p>
+                            <p class="mb-0">(0451) 4908020.</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-order">
+                            <h6 class="mb-2">RS UMUM ANUTAPURA PALU</h6>
+                            <p class="mb-0">JL. KANGKUNG NO. 1 PALU.</p>
+                            <p class="mb-0">(0451) 460570.</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-order">
+                            <h6 class="mb-2">RS UMUM  MOKOPIDO TOLI-TOLI</h6>
+                            <p class="mb-0">JL. LANONI NO.37 KEL BARU KEC BAOLAN KAB TOLI-TOLI, SULTENG.</p>
+                            <p class="mb-0">(0453) 21301.</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-order">
+                            <h6 class="mb-2">RS UMUM DAERAH KOLONEDALE</h6>
+                            <p class="mb-0">JL. W MONGINSIDI 2 KOLONEDALE.</p>
+                            <p class="mb-0">(0465) 21010.</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-order">
+                            <h6 class="mb-2">RS UMUM DAERAH KABUPATEN BANGGAI</h6>
+                            <p class="mb-0">JL. IMAM BONJOL KM 3 NO. 14 LUWUK.</p>
+                            <p class="mb-0">(0461) 21820.</p>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END RUMAH SAKIT -->
+
+    <!-- SCRIPT CHART -->
+    <script>
+
+                new Chart(document.getElementById("chart"), {
+            type: 'line',
+            data: {
+                labels: [{% for item in labels %}
+                            '{{ item }}',
+                        {% endfor %}],
+                datasets: [{
+                    data: [{% for item in values %}
+                            {{ item }},
+                            {% endfor %}],
+                            label : 'Positif',
+                            borderColor: "#1811d4",
+                            fill:false
+                }
+                ]
+            },
+            options: {
+                title: {
+                display: true,
+                text: 'Statistik harian kasus covid19 di Indonesia'
+                },
+                hover: {
+                mode: 'point',
+                intersect: true
+                },
+            }
+            });
+                </script>
+    <!-- END SCRIPT LINE CHART -->
+
+    <!-- BAR CHART -->
+    <script>
+
+        new Chart(document.getElementById("bar_chart"), {
+            type: 'bar',
+            data: {
+                labels: ['Usia 0-5', 'Usia 6-18', 'Usia 19-30', 'Usia 31-45', 'Usia 46-50', 'Usia > 60'],
+                datasets: [
+                {
+                    label: "Jumlah (orang)",
+                    backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850", "#d4d111"],
+                    data: [
+                            {% for item in det_value %}
+                            {{ item }},
+                            {% endfor %}]
+                }
+                ]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                display: true,
+                text: 'Total kasus covid-19 di Sulawesi Tengah berdasarkan usia'
+                }
+            }
+        });
+  
+      </script>
+      <!-- END SCRIPT CHART -->
+
+{%include 'footer.html'%}
